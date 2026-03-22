@@ -17,7 +17,10 @@ const vertex = /* glsl */ `
   void main() {
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 
-    float elevation = sin(modelPosition.x * uWavesFrequency.x) * sin(modelPosition.z * uWavesFrequency.y) * uWavesElevation;
+    float elevation = sin(modelPosition.x * uWavesFrequency.x) *
+                      sin(modelPosition.z * uWavesFrequency.y) *
+                      uWavesElevation;
+
     modelPosition.y += elevation;
 
     vec4 viewPosition = viewMatrix * modelPosition;
@@ -46,7 +49,7 @@ const gl = renderer.gl
 document.body.appendChild(gl.canvas)
 
 const camera = new Camera(gl)
-camera.position.set(1, 0.5, 1);
+camera.position.set(2, 1.5, 2);
 
 const controls = new Orbit(camera, {
   element: gl.canvas
@@ -64,8 +67,8 @@ resize()
 const scene = new Transform()
 
 const geometry = new Plane(gl, {
-  width: 1,
-  height: 1,
+  width: 2,
+  height: 2,
   widthSegments: 128,
   heightSegments: 128
 })
