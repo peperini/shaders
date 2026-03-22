@@ -1,9 +1,13 @@
-import { Renderer, Camera, Program, Mesh, Plane, Transform, Orbit } from 'ogl'
+import { Renderer, Camera, Program, Mesh, Plane, Transform, Orbit, Vec2 } from 'ogl'
+import GUI from 'lil-gui'
 
 const vertex = /* glsl */ `
   uniform mat4 modelMatrix;
   uniform mat4 viewMatrix;
   uniform mat4 projectionMatrix;
+
+  uniform float uWavesElevation;
+  uniform vec2 uWavesFrequency;
 
   attribute vec3 position;
   attribute vec2 uv;
@@ -11,8 +15,17 @@ const vertex = /* glsl */ `
   varying vec2 vUv;
 
   void main() {
+    vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+
+    float elevation = sin(modelPosition.x * uWavesFrequency.x) * sin(modelPosition.z * uWavesFrequency.y) * uWavesElevation;
+    modelPosition.y += elevation;
+
+    vec4 viewPosition = viewMatrix * modelPosition;
+    vec4 projectedPosition = projectionMatrix * viewPosition;
+
+    gl_Position = projectedPosition;
+
     vUv = uv;
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
   }
 `
 
@@ -59,8 +72,15 @@ const geometry = new Plane(gl, {
 
 const program = new Program(gl, {
   vertex,
-  fragment
+  fragment,
+  uniforms: {
+    uWavesElevation: { value: 0.2 },
+    uWavesFrequency: { value: new Vec2(4, 1.5) }
+  }
 })
+
+const gui = new GUI()
+gui.add(program.uniforms.uWavesElevation, 'value').min(0).max(1).step(0.001)
 
 const mesh = new Mesh(gl, { geometry, program })
 mesh.rotation.x = - Math.PI * 0.5
