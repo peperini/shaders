@@ -30,51 +30,51 @@ params.outsideColor = '#1b3984'
 
 class GalaxyGenerator {
     constructor (params, scene) {
-        this.params = params
-        this.scene = scene
+      this.params = params
+      this.scene = scene
 
-        this.geometry = this.getGeometry()
-        this.material = this.getMaterial()
-        this.galaxy = this.getGalaxy()
+      this.geometry = this.getGeometry()
+      this.material = this.getMaterial()
+      this.galaxy = this.getGalaxy()
 
-        this.scene.add(this.galaxy)
+      this.scene.add(this.galaxy)
     }
 
     getGeometry () {
-        const positions = new Float32Array(this.params.count * 3)
-        const colors = new Float32Array(this.params.count * 3)
+      const positions = new Float32Array(this.params.count * 3)
+      const colors = new Float32Array(this.params.count * 3)
 
-        const colorInside = new THREE.Color(this.params.insideColor)
-        const colorOutside = new THREE.Color(this.params.outsideColor)
+      const colorInside = new THREE.Color(this.params.insideColor)
+      const colorOutside = new THREE.Color(this.params.outsideColor)
 
-        for (let i = 0; i < this.params.count; i++) {
-            const i3 = i * 3
+      for (let i = 0; i < this.params.count; i++) {
+        const i3 = i * 3
 
-            // Position
-            const radius = Math.random() * this.params.radius
-            const spinAngle = radius * this.params.spin
-            const branchAngle = (i % this.params.branches) / this.params.branches * Math.PI * 2
+        // Position
+        const radius = Math.random() * this.params.radius
+        const spinAngle = radius * this.params.spin
+        const branchAngle = (i % this.params.branches) / this.params.branches * Math.PI * 2
 
-            const randomX = Math.pow(Math.random(), this.params.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * this.params.randomness
-            const randomY = Math.pow(Math.random(), this.params.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * this.params.randomness
-            const randomZ = Math.pow(Math.random(), this.params.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * this.params.randomness
+        const randomX = Math.pow(Math.random(), this.params.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * this.params.randomness
+        const randomY = Math.pow(Math.random(), this.params.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * this.params.randomness
+        const randomZ = Math.pow(Math.random(), this.params.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * this.params.randomness
 
-            positions[i3    ] = Math.cos(branchAngle + spinAngle) * radius + randomX
-            positions[i3 + 1] = randomY
-            positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ
+        positions[i3    ] = Math.cos(branchAngle + spinAngle) * radius + randomX
+        positions[i3 + 1] = randomY
+        positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ
 
-            // Colors
-            const mixedColor = colorInside.clone()
-            mixedColor.lerp(colorOutside, radius / this.params.radius)
+        // Colors
+        const mixedColor = colorInside.clone()
+        mixedColor.lerp(colorOutside, radius / this.params.radius)
 
-            colors[i3    ] = mixedColor.r
-            colors[i3 + 1] = mixedColor.g
-            colors[i3 + 2] = mixedColor.b
-        }
-        const geometry = new THREE.BufferGeometry()
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-        return geometry
+        colors[i3    ] = mixedColor.r
+        colors[i3 + 1] = mixedColor.g
+        colors[i3 + 2] = mixedColor.b
+      }
+      const geometry = new THREE.BufferGeometry()
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+      return geometry
     }
 
     getMaterial () {
