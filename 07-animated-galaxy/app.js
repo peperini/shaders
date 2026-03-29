@@ -1,6 +1,5 @@
 import { Renderer, Camera, Transform, Geometry, Program, Mesh, Orbit, Color } from 'ogl'
 import * as lil from 'lil-gui'
-import { lerp } from '../shared/utils.js'
 
 // ———— Vertext Shader ———————————————————————————————————————————————————————————————————————————
 const vertex = /* glsl */ `

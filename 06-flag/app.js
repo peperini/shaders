@@ -85,10 +85,10 @@ resize()
 const scene = new Transform()
 
 const geometry = new Plane(gl, {
-    width: 1,
-    height: 1,
-    widthSegments: 32,
-    heightSegments: 32,
+  width: 1,
+  height: 1,
+  widthSegments: 32,
+  heightSegments: 32,
 })
 
 // ———— Custom Attrib ———————————————————————————————————————————————————————————————————————————
