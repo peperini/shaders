@@ -34,84 +34,76 @@ class App {
     }
 
     createRenderer () {
-        this.renderer = new Renderer({
-            alpha: true,
-            antialias: true
-        });
+      this.renderer = new Renderer({
+        alpha: true,
+        antialias: true
+      });
 
-        this.gl = this.renderer.gl
-        this.gl.clearColor(0, 0, 0, 0)
+      this.gl = this.renderer.gl
+      this.gl.clearColor(0, 0, 0, 0)
 
-        document.body.appendChild(this.gl.canvas)
-        Object.assign(this.gl.canvas.style, {
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translateY(-50%)',
-            pointerEvents: 'none',
-        })
-
+      document.body.appendChild(this.gl.canvas)
     }
 
     createCamera() {
-        this.camera = new Camera(this.gl);
-        this.camera.fov = 45;
-        this.camera.position.z = 2;
+      this.camera = new Camera(this.gl);
+      this.camera.fov = 45;
+      this.camera.position.z = 2;
     }
 
     createScene () {
-        this.scene = new Transform()
+      this.scene = new Transform()
     }
 
     createGeometry () {
-        this.planeGeometry = new Plane(this.gl)
+      this.planeGeometry = new Plane(this.gl)
     }
 
     createMedias () {
-        this.mediasElements = document.querySelectorAll('.demo__gallery__media')
-        this.medias = Array.from(this.mediasElements).map(element => {
-            let media = new Media({
-                element,
-                geometry: this.planeGeometry,
-                gl: this.gl,
-                height: this.galleryHeight,
-                scene: this.scene,
-                screen: this.screen,
-                viewport: this.viewport
-            })
+      this.mediasElements = document.querySelectorAll('.demo__gallery__media')
+      this.medias = Array.from(this.mediasElements).map(element => {
+          let media = new Media({
+              element,
+              geometry: this.planeGeometry,
+              gl: this.gl,
+              height: this.galleryHeight,
+              scene: this.scene,
+              screen: this.screen,
+              viewport: this.viewport
+          })
 
-            return media
-        })
+          return media
+      })
     }
 
 
     // Events
 
     onTouchDown (event) {
-        this.isDown = true
+      this.isDown = true
 
-        this.scroll.position = this.scroll.current
-        this.start = event.touches ? event.touches[0].clientY : event.clientY
+      this.scroll.position = this.scroll.current
+      this.start = event.touches ? event.touches[0].clientY : event.clientY
     }
 
     onTouchMove (event) {
-        if (!this.isDown) return
+      if (!this.isDown) return
 
-        const y = event.touches ? event.touches[0].clientY : event.clientY
-        const distance = (this.start - y) * 2
+      const y = event.touches ? event.touches[0].clientY : event.clientY
+      const distance = (this.start - y) * 2
 
-        this.scroll.target = this.scroll.position + distance
+      this.scroll.target = this.scroll.position + distance
     }
 
     onTouchUp (event) {
-        this.isDown = false
+      this.isDown = false
     }
 
     onWheel (event) {
-        const normalized = NormalizeWheel(event)
-        const speed = normalized.pixelY
+      const normalized = NormalizeWheel(event)
+      const speed = normalized.pixelY
 
-        this.scroll.target += speed * 0.5
+      this.scroll.target += speed * 0.5
     }
 
 
@@ -119,8 +111,8 @@ class App {
 
     onResize () {
         this.screen = {
-            height: document.querySelector('.demo__gallery').clientHeight,
-            width: document.querySelector('.demo__gallery').clientWidth
+          height: document.querySelector('.demo__gallery').clientHeight,
+          width: document.querySelector('.demo__gallery').clientWidth
         }
 
         this.renderer.setSize(this.screen.width, this.screen.height)
