@@ -86,7 +86,7 @@ document.body.appendChild(gl.canvas)
 
 // ———— Camera ———————————————————————————————————————————————————————————————————————————
 const camera = new Camera(gl)
-camera.position.set(0, 3, 10)
+camera.position.set(3, 3, 3)
 
 // ———— Orbit ———————————————————————————————————————————————————————————————————————————
 const controls = new Orbit(camera, {
@@ -109,10 +109,10 @@ const scene = new Transform()
 // ———— Galaxy ———————————————————————————————————————————————————————————————————————————
 const params = {}
 params.count = 100000
-params.radius = 5
-params.branches = 3
-params.randomness = 0.5
-params.randomnessPower = 3
+params.radius = 2.5
+params.branches = 8
+params.randomness = 1
+params.randomnessPower = 3.5
 params.insideColor = '#ff6030'
 params.outsideColor = '#1b3984'
 
